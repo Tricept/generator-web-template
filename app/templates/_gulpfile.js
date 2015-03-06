@@ -8,30 +8,29 @@ var path = require('path'),
     cssmin = require('gulp-cssmin');
 
 function processStyles() {<% if(cssPreprocessor == 'LESS') { %>
-    gulp.src('./template/styles/**/*.less')<% } %><% if(cssPreprocessor == 'SASS') { %>
-    gulp.src('./template/styles/**/*.scss')<% } %>
+    gulp.src('Resources/Private/Styles/**/*.less')<% } %><% if(cssPreprocessor == 'SASS') { %>
+    gulp.src('Resources/Private/Styles/**/*.scss')<% } %>
     .pipe(plumber())
     <% if(cssPreprocessor == 'LESS') { %>.pipe(less({
         'paths': [path.join(__dirname, 'bower_components')]
     }))<% } %><% if(cssPreprocessor == 'SASS') { %>.pipe(sass({
-        'includePaths': 'bower_components/'
+        'includePaths': 'bower_components'
     }))<% } %>
     .pipe(cssmin())
-    .pipe(gulp.dest('.tmp/styles/'));
+    .pipe(gulp.dest('Resources/Public/CSS'));
 }
 
 gulp.task('webserver', function() {
     connect.server({
         'host': '0.0.0.0',
-        'root': ['template', '.tmp'],
         'livereload': true
     });
 })
 
 gulp.task('livereload', function() {
     var files = [
-        'template/**/*.html',
-        '.tmp/styles/**/*.css'
+        '**/*.html',
+        'Resources/Public/CSS/**/*.css'
     ];
     watch(files).pipe(connect.reload());
 });
@@ -39,7 +38,7 @@ gulp.task('livereload', function() {
 gulp.task('styles', processStyles);
 
 gulp.task('watch', function() {
-    watch('template/styles/**/*', processStyles);
+    watch('Resources/Private/Styles/**/*', processStyles);
 });
 
 gulp.task('default', ['styles', 'webserver', 'livereload', 'watch']);

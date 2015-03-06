@@ -61,14 +61,14 @@ module.exports = generators.Base.extend({
         else if(this.cssPreprocessor == 'SASS') file = 'main.scss';
         this.fs.copyTpl(
             this.templatePath('template/styles/' + file),
-            this.destinationPath('template/styles/' + file),
+            this.destinationPath('Resources/Private/Styles/' + file),
             {'useBootstrap': this.useBootstrap}
         );
     },
     _writeHtml: function() {
         this.fs.copyTpl(
             this.templatePath('template/index.html'),
-            this.destinationPath('template/index.html'),
+            this.destinationPath('index.html'),
             {'projectName': this.projectName}
         );
     },
